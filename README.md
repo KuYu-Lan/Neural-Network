@@ -10,3 +10,6 @@ Using backpropagation gradient descent for learning method.
 
 Initial Neural Network Architecture.
 
+test change
+
+why no change
