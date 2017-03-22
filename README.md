@@ -9,7 +9,6 @@ Using backpropagation gradient descent for learning method.
 # Using
 
 Initial Neural Network Architecture.
-火
 
 
 
