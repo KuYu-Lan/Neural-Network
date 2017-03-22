@@ -29,7 +29,7 @@ neural_network *nn = new neural_network(layer_num, layer_neurons_num);
 
 ## Traning Neural Network with backpropagation gradient descent
 
-nn->nn_train(&target_output, input, learnling_factor);
+nn->nn_train(target_output, input, learnling_factor);
 
 	input is input layer data.
 
@@ -48,10 +48,9 @@ nn->nn_output(input_temp);
 ### Every Single Layer Output
 
 nn->nn_ervery_layer_output(input_temp);
--------------------------------------------------------------------------------------
-it Will return double** output(It include all layer's output,contain input layer.)
 
 example:
+	it will return double** output(It include all layer's output,contain input layer.)
 
 	output[0] is input layer data
 
