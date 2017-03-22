@@ -49,7 +49,7 @@ nn->nn_output(input_temp);
 
 nn->nn_ervery_layer_output(input_temp);
 
-example:
+	example:
 	it will return double** output(It include all layer's output,contain input layer.)
 
 	output[0] is input layer data
