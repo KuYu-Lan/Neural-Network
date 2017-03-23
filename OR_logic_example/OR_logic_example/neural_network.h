@@ -1,3 +1,10 @@
+// neural_network_h by Ku Yu lan
+//
+// Description:
+// This is neural network lib header file,using backpropagation gradient decent to learning algorithm.
+// Code from https://github.com/KuYu-Lan/neural_network_lib
+
+
 #include <stdlib.h>
 #include <time.h>
 #include <math.h> 

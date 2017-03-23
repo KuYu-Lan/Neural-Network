@@ -1,3 +1,10 @@
+// neural_network_cpp by Ku Yu lan
+//
+// Description:
+// This is neural network lib OR logic eample. 
+// Code from https://github.com/KuYu-Lan/neural_network_lib
+
+
 #include "neural_network.h"
 #include <iostream>
 
