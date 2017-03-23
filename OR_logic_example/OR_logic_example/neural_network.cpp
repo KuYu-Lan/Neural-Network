@@ -1,3 +1,7 @@
+// neural_network.cpp by Ku Yu Lan
+// 
+// Description:https://github.com/KuYu-Lan/neural_network_lib
+
 #include "neural_network.h"
 
 neural_network::neural_network(int layer_num, int* layer_neurons_num)

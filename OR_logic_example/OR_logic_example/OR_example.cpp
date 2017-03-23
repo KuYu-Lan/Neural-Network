@@ -1,3 +1,8 @@
+// OR_example.cpp by Ku Yu Lan
+// 
+// Description:https://github.com/KuYu-Lan/neural_network_lib
+
+
 #include "neural_network.h"
 #include <iostream>
 

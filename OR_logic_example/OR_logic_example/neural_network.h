@@ -1,3 +1,11 @@
+// neural_network.h by Ku Yu Lan
+//
+// Description:https://github.com/KuYu-Lan/neural_network_lib
+
+
+
+
+
 #include <stdlib.h>
 #include <time.h>
 #include <math.h> 
