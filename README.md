@@ -22,7 +22,7 @@ neural_network *nn = new neural_network(layer_num, layer_neurons_num);
 	input dimension is 4
 	hidden_layer1 neuron dimension is 2
 	hidden_layer2 neuron dimension is 2  					
-	output dimension is 1
+	output_layer dimension is 1
 
 	Then, layer_num = 4 , layer_neurons_num[] ={4,2,2,1}
 	It's will initial every neurons weight & bias. 
@@ -39,7 +39,7 @@ nn->nn_train(target_output, input, learnling_factor);
 
 ## Neural Network Output
 
-### Output Layer Output
+### Output Layer Result
 
 nn->nn_output(input_temp);
 	
