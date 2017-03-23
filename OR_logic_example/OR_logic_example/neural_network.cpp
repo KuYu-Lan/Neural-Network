@@ -1,3 +1,9 @@
+// neural_network_cpp by Ku Yu lan
+//
+// Description:
+// This is neural network lib c++ file,using backpropagation gradient decent to learning algorithm.
+// Code from https://github.com/KuYu-Lan/neural_network_lib
+
 #include "neural_network.h"
 
 neural_network::neural_network(int layer_num, int* layer_neurons_num)
