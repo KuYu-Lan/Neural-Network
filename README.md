@@ -2,9 +2,9 @@
 
 This is simple neural network lib for C++,using Visual Studio 2015 C++ Programing.
 
-Ervery neuron using sigmoid function for activity function.
+Ervery neuron using sigmoid function for activation function.
 
-Using backpropagation gradient descent for learning method.
+Using backpropagation gradient descent as learning method.
 
 <OR_Logic_example> this project is OR logic regresion example.
 
