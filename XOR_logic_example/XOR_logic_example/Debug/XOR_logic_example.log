@@ -1,3 +1,4 @@
 ﻿  XOR_example.cpp
-  XOR_logic_example.vcxproj -> C:\Users\sc\Documents\Visual Studio 2015\Projects\XOR_logic_example\Debug\XOR_logic_example.exe
-  XOR_logic_example.vcxproj -> C:\Users\sc\Documents\Visual Studio 2015\Projects\XOR_logic_example\Debug\XOR_logic_example.pdb (Partial PDB)
+  LINK : 最後的累加連結找不到或未建置 C:\Users\sc\Documents\GitHub\neural_network_lib\XOR_logic_example\Debug\XOR_logic_example.exe，正在執行完整連結
+  XOR_logic_example.vcxproj -> C:\Users\sc\Documents\GitHub\neural_network_lib\XOR_logic_example\Debug\XOR_logic_example.exe
+  XOR_logic_example.vcxproj -> C:\Users\sc\Documents\GitHub\neural_network_lib\XOR_logic_example\Debug\XOR_logic_example.pdb (Partial PDB)
