@@ -1,0 +1,3 @@
+C:\Users\sc\Documents\Visual Studio 2015\Projects\NN_MNIST\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.exe.config
+C:\Users\sc\Documents\Visual Studio 2015\Projects\NN_MNIST\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.exe
+C:\Users\sc\Documents\Visual Studio 2015\Projects\NN_MNIST\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.pdb
