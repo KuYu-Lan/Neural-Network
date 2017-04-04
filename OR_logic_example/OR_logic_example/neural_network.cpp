@@ -6,54 +6,79 @@
 
 neural_network::neural_network(int layer_num, int* layer_neurons_num)
 {
-//Initial Neural net Parameter
-int weight_num = 0;
-int bias_num = 0;
+	//Initial Neural net Parameter
+	int weight_num = 0;
+	int bias_num = 0;
 
-if (layer_num < 2) {
-	return; //at least 2 layer
-}
-this->layer_num = layer_num;
-this->layer_neurons_num = layer_neurons_num;
+	if (layer_num < 2) {
+		return; //at least 2 layer
+	}
+	this->layer_num = layer_num;
+	this->layer_neurons_num = new int[layer_num];
 
-for (int i = 0; i < layer_num - 1; i++) {
-	weight_num += layer_neurons_num[i] * layer_neurons_num[i + 1];
-	bias_num += layer_neurons_num[i + 1];
-}
-this->weight_num = weight_num;
-this->bias_num = bias_num;
-nn_weight = new double[weight_num];
-nn_bias = new double[bias_num];
+	for (int i = 0; i < layer_num - 1; i++) {
+		weight_num += layer_neurons_num[i] * layer_neurons_num[i + 1];
+		bias_num += layer_neurons_num[i + 1];
 
-srand(time(NULL));//init rand
+		this->layer_neurons_num[i] = layer_neurons_num[i];
+	}
+	this->layer_neurons_num[layer_num - 1] = layer_neurons_num[layer_num - 1];
 
-//Init Weight & Bias
-for (int i = 0; i < weight_num; i++) {
-	nn_weight[i] = (double)(rand() % 2000) / 1000 - 1; //Init neurno = [1 ~ -1]
-}
-for (int i = 0; i < bias_num; i++) {
-	nn_bias[i] = (double)(rand() % 2000) / 1000 - 1; //Init bias = [1 ~ -1]
-}
+	this->weight_num = weight_num;
+	this->bias_num = bias_num;
+	weight = new double[weight_num];
+	bias = new double[bias_num];
+
+	srand(time(NULL));//init rand
+
+					  //Init Weight & Bias
+	for (int i = 0; i < weight_num; i++) {
+		weight[i] = (double)(rand() % 2000) / 1000 - 1; //Init neurno = [1 ~ -1]
+	}
+	for (int i = 0; i < bias_num; i++) {
+		bias[i] = (double)(rand() % 2000) / 1000 - 1; //Init bias = [1 ~ -1]
+	}
 }
 
-double** neural_network::nn_ervery_layer_output(double* input_value) {
+neural_network::~neural_network()
+{
+	//free memory
+	delete[]bias;
+	delete[]layer_neurons_num;
+	delete[]weight;
+}
+
+void neural_network::set_parameter(double* weight, double* bias) {
+	for (int i = 0; i<this->weight_num; i++)
+		this->weight[i] = weight[i];
+
+	for (int i = 0; i < this->bias_num; i++)
+		this->bias[i] = bias[i];
+
+}
+
+
+
+
+double** neural_network::ervery_layer_output(double* input_value) {
 	int weight_offset = 0, bias_offset = 0;
 	double **output = new double *[this->layer_num];
 
 	output[0] = input_value; //ouput[0] is input_layer
-	//Feedforward Network
+							 //Feedforward Network
 	for (int i = 1; i < layer_num; i++) {
 		double *temp = NULL;
-		temp = Fully_Connect_layer(output[i-1], nn_weight + weight_offset, nn_bias + bias_offset, i); //Every Single Layer Output
+		temp = Fully_Connect_layer(output[i - 1], weight + weight_offset, bias + bias_offset, i); //Every Single Layer Output
 		output[i] = temp; //point to ervery layer output
 
 		weight_offset += layer_neurons_num[i - 1] * layer_neurons_num[i];
 		bias_offset += layer_neurons_num[i];
 	}
+
 	return output;
 }
 
-double* neural_network::nn_output(double* input_value) {
+double* neural_network::output(double* input_value) {
 	int weight_offset = 0, bias_offset = 0;
 	double *output = input_value;
 	double *temp = NULL;
@@ -61,12 +86,12 @@ double* neural_network::nn_output(double* input_value) {
 	//Feedforward Network
 	for (int i = 1; i < layer_num; i++) {
 		temp = output;
-		output = Fully_Connect_layer(temp, nn_weight + weight_offset, nn_bias + bias_offset, i); //Every Single Layer Output
+		output = Fully_Connect_layer(temp, weight + weight_offset, bias + bias_offset, i); //Every Single Layer Output
 		weight_offset += layer_neurons_num[i - 1] * layer_neurons_num[i];
 		bias_offset += layer_neurons_num[i];
 
 		//free memory,if is input layer then don't free memory 
-		if( i != 1) 
+		if (i != 1)
 			delete[]temp;
 	}
 
@@ -97,34 +122,87 @@ double* neural_network::Fully_Connect_layer(double* input_value, double* weight,
 	return output;
 }
 
-void neural_network::nn_train(double* target_value, double* input_value, double learnling_factor)
+void neural_network::train(double* target_value, double* input_value, double learnling_factor)
 {
 	double** output = NULL;
+
+	output = this->ervery_layer_output(input_value);
+	Update_parameter(output, target_value, learnling_factor);
+}
+
+bool neural_network::Classification_train(double* target_value, double* input_value, double learnling_factor, double up_bound, double lower_bound) {
+	double** output = NULL;
+	bool check = false;
+
+	output = this->ervery_layer_output(input_value);
+
+	//Check NN_output Convergence Criteria
+	for (int i = 0; i < layer_neurons_num[layer_num - 1]; i++) {
+		if ((*(output[layer_num - 1] + i) > lower_bound) && target_value[i] == 0)
+			check = true;
+		else if ((*(output[layer_num - 1] + i) < up_bound) && target_value[i] == 1)
+			check = true;
+	}
+
+	//If not suffice convergence criteria then train nn
+	if (check) {
+		Update_parameter(output, target_value, learnling_factor);
+		for (int i = 1; i < layer_num; ++i) {
+			delete[] output[i];
+		}
+		delete[] output;
+		return true;
+	}
+	for (int i = 1; i < layer_num; ++i) {
+		delete[] output[i];
+	}
+	delete[] output;
+
+	return false;
+}
+
+double * neural_network::Get_weight()
+{
+	return this->weight;
+}
+
+double * neural_network::Get_bias()
+{
+	return this->bias;
+}
+
+int neural_network::Get_bias_num()
+{
+	return this->bias_num;
+}
+
+int neural_network::Get_weight_num()
+{
+	return this->weight_num;
+}
+
+
+
+void neural_network::Update_parameter(double** output, double *target_value, double learnling_factor) {
+	double* weight;
+	double* bias;
 	double* delta_a = NULL;
 	double* delta_z = NULL;
 	double* delta_w = NULL;
-
-	double* weight;
-	double* bias;
-
 	int weight_offset = 0, bias_offset = 0, layer_weight_num;
-	
-	output = this->nn_ervery_layer_output(input_value);
-	
 
 	//Network Backpropagation ,  use gradient descent
 	for (int i = layer_num - 1; i > 0; i--) {
 		layer_weight_num = layer_neurons_num[i] * layer_neurons_num[i - 1];
 		weight_offset += layer_weight_num;
 		bias_offset += layer_neurons_num[i];
-		
 
 		//get sigle layer weight & bias
-		weight = nn_weight + weight_num - weight_offset;
-		bias = nn_bias + bias_num - bias_offset;
+		weight = this->weight + weight_num - weight_offset;
+		bias = this->bias + bias_num - bias_offset;
 
 		if (i == layer_num - 1) {  //i is Output_Layer
-			//delta_a_j = -(t_j - A(Ouput_j)) , A() is activity function
+								   //delta_a_j = -(t_j - A(Ouput_j)) , A() is activity function
 			delta_a = new double[layer_neurons_num[i]];
 			for (int j = 0; j < layer_neurons_num[i]; j++)
 				delta_a[j] = -(target_value[j] - *(output[i] + j));
@@ -139,11 +217,12 @@ void neural_network::nn_train(double* target_value, double* input_value, double 
 			bias[j] -= learnling_factor * delta_z[j];
 		}
 
+
 		//delta_w_kj = delta_z_j * A(Ouput_k) , A(Ouput_k) is «e¤@¼h¿é¥X  
 		delta_w = new double[layer_weight_num];
 		for (int j = 0; j < layer_neurons_num[i]; j++) {
-			for (int k = 0; k < layer_neurons_num[i-1]; k++) {
-				delta_w[layer_neurons_num[i - 1] *j + k] = *(output[i - 1] + k) * delta_z[j];
+			for (int k = 0; k < layer_neurons_num[i - 1]; k++) {
+				delta_w[layer_neurons_num[i - 1] * j + k] = *(output[i - 1] + k) * delta_z[j];
 			}
 		}
 
@@ -157,7 +236,6 @@ void neural_network::nn_train(double* target_value, double* input_value, double 
 				delta_a[j] += delta_z[k] * weight[j + k* layer_neurons_num[i - 1]];
 			}
 		}
-
 		//update weight
 		//weight_j = weight_j - learnling_factor * delta_w_j 
 		for (int j = 0; j < layer_weight_num; j++)
@@ -165,9 +243,12 @@ void neural_network::nn_train(double* target_value, double* input_value, double 
 			weight[j] -= learnling_factor *  delta_w[j];
 		}
 
-		delete[]output[i];//free output
-		delete[]delta_w; //free delta_a
-		delete[]delta_z; //free delta_a
+		delete[]delta_w; //free delta_w
+		delete[]delta_z; //free delta_z
 	}
-
+	delete[] delta_a; //free delta_a
 }
+
+
+
+

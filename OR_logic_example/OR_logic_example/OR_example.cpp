@@ -34,7 +34,7 @@ int main() {
 			input_temp[0] = input_value[i][0];
 			input_temp[1] = input_value[i][1];
 			//train network
-			nn->nn_train(&target_output[i], input_temp, learnling_factor);
+			nn->train(&target_output[i], input_temp, learnling_factor);
 		}
 	}
 
@@ -44,7 +44,7 @@ int main() {
 		input_temp[0] = input_value[i][0];
 		input_temp[1] = input_value[i][1];
 		cout << input_value[i][0] << " " << input_value[i][1] << "\t";
-		cout << *(nn->nn_output(input_temp)) << endl;
+		cout << *(nn->output(input_temp)) << endl;
 	}
 	
 	
