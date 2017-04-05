@@ -7,8 +7,8 @@ Every neuron using sigmoid function for activation function.
 Using backpropagation gradient descent as learning method.
 
 <OR_Logic_example> this project is OR logic regression example.
-
-
+<XOR_logic_example> this project is XOR logic regression example.
+<NN_MNIST> this project is MNIST example using C#.
 
 # Using
 
@@ -17,7 +17,7 @@ Using backpropagation gradient descent as learning method.
 neural_network *nn = new neural_network(layer_num, layer_neurons_num);
 
 	Architecture example:  
-	input_layer -->  hidden_layer1 --> hidden_layer2 --> output_layer
+	input_layer |  hidden_layer1 | hidden_layer2 | output_layer
 
 	input dimension is 4
 	hidden_layer1 neuron dimension is 2
@@ -29,7 +29,7 @@ neural_network *nn = new neural_network(layer_num, layer_neurons_num);
 
 ## Traning Neural Network with backpropagation gradient descent
 
-nn->nn_train(target_output, input, learnling_factor);
+nn->train(target_output, input, learnling_factor);
 
 	input is input layer data.
 
@@ -41,13 +41,13 @@ nn->nn_train(target_output, input, learnling_factor);
 
 ### Output Layer Result
 
-nn->nn_output(input_temp);
+nn->output(input_temp);
 	
 	Will return double* output
 
 ### Every Single Layer Output
 
-nn->nn_ervery_layer_output(input_temp);
+nn->ervery_layer_output(input_temp);
 
 	example:
 	it will return double** output(It include all layer's output,contain input layer.)
