@@ -1,4 +1,8 @@
-﻿using NN_Csharp_lib;
+﻿// Code by Ku Yu Lan
+//
+// Description:https://github.com/KuYu-Lan/neural_network_lib
+
+using NN_Csharp_lib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -71,6 +75,7 @@ namespace WindowsFormsApplication2
         }
         private void Number_Check(object sender, KeyPressEventArgs e)
         {
+            //This function is check that the TextBox input value.
             TextBox temp = (TextBox)sender;
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
@@ -88,6 +93,8 @@ namespace WindowsFormsApplication2
             float n;
 
             //Check all textbox
+
+            //NN output is [0,1]
             if(float.TryParse(textBox4.Text,out n))
             {
                 if (n > 1 || n < 0)
@@ -103,6 +110,8 @@ namespace WindowsFormsApplication2
                         "Important Note");
                 return;
             }
+
+            //TextBox can't be empty
             if(textBox1.Text == "" || textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == ""||textBox6.Text == "" || textBox7.Text == "")
             {
                 MessageBox.Show("Some parameter not set",//wrong range
@@ -149,15 +158,17 @@ namespace WindowsFormsApplication2
                 //init NN
                 neural_network nn = NN_init(4, layer_neuron_num);
 
-                //UI Contorl
-                f3.Change_Label(epoch_count, false,100);
+                //Change Form3 epoch label
+                f3.Change_Label(epoch_count+1, false,100);
 
                 //Training NN
                 for (int iteration_count = 0; iteration_count < iteration; iteration_count++)
                 {
-                    //init Log 
+                    //init error log 
                     error_log[iteration_count] = 0;
-                    f3.Change_iteration_label(iteration_count);
+
+                    //Change Form3 iteration label
+                    f3.Change_iteration_label(iteration_count+1);
 
                     //Get Test Label & Image to train NN
                     for (int Label_count = 0; Label_count < 60000; Label_count++) //MNIST Train dataset number of item is 60000 
@@ -206,6 +217,7 @@ namespace WindowsFormsApplication2
 
         public unsafe void Out_NN_Parameter()
         {
+            //Write Out train NN Parameter 
             f1.nn = this.nn;
             FileStream fsSource = new FileStream("NN_Parameter", FileMode.Create, FileAccess.Write);
             byte[] temp_byte = new byte[20];

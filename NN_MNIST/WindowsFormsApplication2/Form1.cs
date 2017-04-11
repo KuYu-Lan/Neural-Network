@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Code by Ku Yu Lan
+//
+// Description:https://github.com/KuYu-Lan/neural_network_lib
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;

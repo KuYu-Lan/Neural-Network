@@ -1,3 +1,15 @@
 C:\Users\sc\Documents\Visual Studio 2015\Projects\NN_MNIST\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.exe.config
 C:\Users\sc\Documents\Visual Studio 2015\Projects\NN_MNIST\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.exe
 C:\Users\sc\Documents\Visual Studio 2015\Projects\NN_MNIST\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.pdb
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.exe.config
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.exe
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.pdb
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.exe
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.pdb
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\bin\Debug\NN_Csharp_lib.pdb
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\obj\Debug\NN_MNIST.csprojResolveAssemblyReference.cache
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.Form1.resources
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.Form2.resources
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.Form3.resources
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.Properties.Resources.resources
+C:\Users\sc\Documents\GitHub\neural_network_lib\NN_MNIST\WindowsFormsApplication2\obj\Debug\NN_MNIST.csproj.GenerateResource.Cache
