@@ -21,7 +21,7 @@ int main() {
 	double input_value[4][2] = {{0,0},{0,1},{1,0},{1,1}};
 	double target_output[4] = {0 , 1 ,1 ,0};
 
-	cout << "XOR logic" << endl << "input\toutput" << endl << "0 0\t0"<<endl << "0 1\t0" << endl << "1 0\t0" << endl << "1 1\t1"<<endl <<endl;
+	cout << "XOR logic" << endl << "input\toutput" << endl << "0 0\t0"<<endl << "0 1\t1" << endl << "1 0\t1" << endl << "1 1\t0"<<endl <<endl;
 	
 	double input_temp[2];
 	double learnling_factor = 0.25;
