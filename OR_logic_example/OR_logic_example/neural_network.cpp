@@ -17,9 +17,11 @@ neural_network::neural_network(int layer_num, int* layer_neurons_num)
 	this->layer_neurons_num = new int[layer_num];
 
 	for (int i = 0; i < layer_num - 1; i++) {
+		//count every layer weight & bias
 		weight_num += layer_neurons_num[i] * layer_neurons_num[i + 1];
 		bias_num += layer_neurons_num[i + 1];
 
+		//record every layer neurons
 		this->layer_neurons_num[i] = layer_neurons_num[i];
 	}
 	this->layer_neurons_num[layer_num - 1] = layer_neurons_num[layer_num - 1];
@@ -31,7 +33,7 @@ neural_network::neural_network(int layer_num, int* layer_neurons_num)
 
 	srand(time(NULL));//init rand
 
-					  //Init Weight & Bias
+	//Init Weight & Bias
 	for (int i = 0; i < weight_num; i++) {
 		weight[i] = (double)(rand() % 2000) / 1000 - 1; //Init neurno = [1 ~ -1]
 	}
@@ -49,12 +51,12 @@ neural_network::~neural_network()
 }
 
 void neural_network::set_parameter(double* weight, double* bias) {
+	//Set NN all weight & bias
 	for (int i = 0; i<this->weight_num; i++)
 		this->weight[i] = weight[i];
 
 	for (int i = 0; i < this->bias_num; i++)
 		this->bias[i] = bias[i];
-
 }
 
 
@@ -65,12 +67,14 @@ double** neural_network::ervery_layer_output(double* input_value) {
 	double **output = new double *[this->layer_num];
 
 	output[0] = input_value; //ouput[0] is input_layer
-							 //Feedforward Network
+
+	//Feedforward Network
 	for (int i = 1; i < layer_num; i++) {
 		double *temp = NULL;
 		temp = Fully_Connect_layer(output[i - 1], weight + weight_offset, bias + bias_offset, i); //Every Single Layer Output
 		output[i] = temp; //point to ervery layer output
 
+		//point to next layer 
 		weight_offset += layer_neurons_num[i - 1] * layer_neurons_num[i];
 		bias_offset += layer_neurons_num[i];
 	}
@@ -90,7 +94,7 @@ double* neural_network::output(double* input_value) {
 		weight_offset += layer_neurons_num[i - 1] * layer_neurons_num[i];
 		bias_offset += layer_neurons_num[i];
 
-		//free memory,if is input layer then don't free memory 
+		//free memory,if it is input layer then don't free memory 
 		if (i != 1)
 			delete[]temp;
 	}
