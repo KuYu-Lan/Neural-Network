@@ -14,7 +14,7 @@ int main() {
 	
 	//Neural Network Architecture Initial
 	layer_neurons_num[0] = 2; 
-	layer_neurons_num[1] = 4;
+	layer_neurons_num[1] = 2;
 	layer_neurons_num[2] = 1;
 
 	//XOR logic
