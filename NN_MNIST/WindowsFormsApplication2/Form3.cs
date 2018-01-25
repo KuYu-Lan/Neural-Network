@@ -29,9 +29,6 @@ namespace WindowsFormsApplication2
             chart1.Series.Clear();
             label3.Text = "";
             button1.Enabled = false;
-
-
-
         }
         public void Change_Label(int epoch,bool finish,float error)
         {
@@ -39,6 +36,8 @@ namespace WindowsFormsApplication2
             {
                 label2.Text = "Now epoch: " + epoch;
             });
+
+
             if (finish)
             {
                 label1.Invoke((MethodInvoker)delegate
@@ -63,8 +62,6 @@ namespace WindowsFormsApplication2
             {
                 label4.Text = "Now Iteration:" + iteration_count;
             });
-
-
         }
 
 
@@ -92,6 +89,12 @@ namespace WindowsFormsApplication2
         private void button1_Click(object sender, EventArgs e)
         {
             f2.Out_NN_Parameter();
+        }
+
+        private void Form3_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            f2.STOP_train();
+
         }
     }
 }

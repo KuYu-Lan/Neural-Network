@@ -97,7 +97,6 @@
             this.label5.Size = new System.Drawing.Size(127, 15);
             this.label5.TabIndex = 4;
             this.label5.Text = "Convergence Criteria";
-      
             // 
             // textBox1
             // 
@@ -191,7 +190,6 @@
             this.label8.Size = new System.Drawing.Size(170, 15);
             this.label8.TabIndex = 15;
             this.label8.Text = "Hidden Layer1 Neuron Num";
-          
             // 
             // label9
             // 
@@ -246,6 +244,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form2";
             this.Text = "Form2";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

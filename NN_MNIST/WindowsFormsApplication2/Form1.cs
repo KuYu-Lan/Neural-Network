@@ -19,48 +19,55 @@ namespace WindowsFormsApplication2
 {
     public partial class Form1 : Form
     {
+        static public neural_network nn;
+        private MNIST mnist = new MNIST();
+        public bool Train_start = false; //Form2 display controll
 
-        public neural_network nn;
-        public bool Train_start = false;
-
-        int Test_label;
-        Form2 form2;
+        int Test_label;//MNIST label
+        Form2 form2; //train NN FORM
         byte[] image_data; //read MNIST image data
 
         public Form1()
         {
             InitializeComponent();
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            Change_Test_img();
+            changeImg();
             label1.Text = "";
+            init_NN();
+        }
+
+        unsafe static private void init_NN()
+        {
             //Read NN parameter file
-            if (!File.Exists("NN_Parameter")) return;
+            if (!File.Exists("NN_Parameter"))
+            {
+                MessageBox.Show("Open NN_Parameter fail!!");
+                Console.WriteLine("Open NN_Parameter fail!!");
+                return;
+            }
             FileStream fsSource = new FileStream("NN_Parameter", FileMode.Open, FileAccess.Read);
-     
-            byte[] temp_byte = new byte[10];
-            //read out NN Architecture
+            byte[] temp_byte = new byte[8];
+            
             fsSource.Read(temp_byte, 0, 4);
             int layer_num = BitConverter.ToInt32(temp_byte, 0);
 
-            int[] layer_neuron_num = new int[4]; 
-            fsSource.Read(temp_byte, 0, 4); //int is 4bytes
-            layer_neuron_num[0] = BitConverter.ToInt32(temp_byte, 0);
+            //init nn layer parameter
+            int[] layer_neuron_num = new int[layer_num];
+            for (int i = 0; i < layer_num; i++)
+            {
+                fsSource.Read(temp_byte, 0, 4); //int is 4bytes
+                layer_neuron_num[i] = BitConverter.ToInt32(temp_byte, 0);
+            }
 
-            fsSource.Read(temp_byte, 0, 4); //int is 4bytes
-            layer_neuron_num[1] = BitConverter.ToInt32(temp_byte, 0);
 
-            fsSource.Read(temp_byte, 0, 4); //int is 4bytes
-            layer_neuron_num[2] = BitConverter.ToInt32(temp_byte, 0);
-
-            fsSource.Read(temp_byte, 0, 4); //int is 4bytes
-            layer_neuron_num[3] = BitConverter.ToInt32(temp_byte, 0);
-
+            //init nn weight parameter
             fsSource.Read(temp_byte, 0, 4); //int is 4bytes
             int weight_num = BitConverter.ToInt32(temp_byte, 0);
             double[] weight = new double[weight_num];
-            for(int i = 0; i < weight_num; i++)
+            for (int i = 0; i < weight_num; i++)
             {
                 fsSource.Read(temp_byte, 0, 8); //double is 8bytes
                 weight[i] = BitConverter.ToDouble(temp_byte, 0);
@@ -74,21 +81,38 @@ namespace WindowsFormsApplication2
                 fsSource.Read(temp_byte, 0, 8); //double is 8bytes
                 bias[i] = BitConverter.ToDouble(temp_byte, 0);
             }
+            
             fsSource.Close();
-            this.nn = NN_init(layer_num, layer_neuron_num, weight, bias);
+            //nn = NN_init(layer_num, layer_neuron_num, weight, bias);
+            //Init NN
+            fixed (int* p = layer_neuron_num)
+            {
+                nn = new neural_network(layer_num, p); 
+                fixed (double* p1 = weight)
+                {
+                    fixed (double* p2 = bias)
+                    {
+                        nn.set_parameter(p1, p2);
+                    }
+                }
+            }        
         }
 
-        private void Change_Test_img()
+        private void button1_Click(object sender, EventArgs e)
         {
+            changeImg();
+        }
+
+        private void changeImg()
+        {
+            //Change MNIST Image
             Random rnd = new Random();
 
             image_data = new byte[784];
-            Test_label = MNIST_read("t10k-labels.idx1-ubyte", "t10k-images.idx3-ubyte", rnd.Next(0, 9999), image_data);
-            Show_MNIST_data(image_data);
-        }
+            mnist.ReadImg("t10k-labels.idx1-ubyte", "t10k-images.idx3-ubyte", rnd.Next(0, 9999), image_data);
+            this.Test_label = mnist.label;
 
-        private void Show_MNIST_data(byte[] image_data)
-        {
+            //Show img to picturebox
             Bitmap img = new Bitmap(28, 28);
             Color curColor;
             for (int n1 = 0; n1 < 28; n1++)
@@ -102,60 +126,6 @@ namespace WindowsFormsApplication2
                 }
             }
             pictureBox1.Image = img;
-        }
-
-        private int MNIST_read(String label_path, String image_path, int offset, byte[] image_data)
-        {
-            int n;
-            int label;
-            byte[] tempBytes = new byte[4];
-            FileStream fsSource = new FileStream(label_path, FileMode.Open, FileAccess.Read);
-            fsSource.Read(tempBytes, 0, 4);
-
-            //Check magic number 
-            Array.Reverse(tempBytes);//System is Little Endian
-            n = BitConverter.ToInt32(tempBytes, 0);
-            if (n != 2049) return -1;
-
-            //Skip data
-            fsSource.Read(tempBytes, 0, 4);
-            for (int i = 0; i < offset; i++) fsSource.Read(tempBytes, 0, 1);
-
-            //Read Label data
-            fsSource.Read(tempBytes, 0, 1);
-            label = tempBytes[0];
-
-            fsSource.Close();
-
-            //read image data
-            fsSource = new FileStream(image_path, FileMode.Open, FileAccess.Read);
-            fsSource.Read(tempBytes, 0, 4);
-
-            //Check magic number 
-            Array.Reverse(tempBytes);//System is Little Endian
-            n = BitConverter.ToInt32(tempBytes, 0);
-            if (n != 2051) return -1;
-
-            //Skip data
-            fsSource.Read(image_data, 0, 12);
-            for (int i = 0; i < offset; i++) fsSource.Read(image_data, 0, 784);
-
-            //Read image data
-            fsSource.Read(image_data, 0, 784);
-            fsSource.Close();
-
-            return label;
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //Change Test Image
-            Change_Test_img();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -191,23 +161,7 @@ namespace WindowsFormsApplication2
             }
         }
 
-        private unsafe neural_network NN_init(int layer_num, int[] layer_neuron_num,double[] weight,double[]bias)
-        {
-            //Init NN
-            fixed (int* p = layer_neuron_num)
-            {
-                neural_network nn = new neural_network(layer_num, p);
-                fixed (double* p1 = weight)
-                {
-                    fixed (double* p2 = bias)
-                    {
 
-                        nn.set_parameter(p1, p2);
-                    }
-                }
-                return nn;
-            }
-        }
         private void button4_Click(object sender, EventArgs e)
         {
             if (!Train_start)

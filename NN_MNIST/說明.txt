@@ -1,0 +1,17 @@
+Form1.cs 代刚だ摸ざ秨币癡絤ざ(Form2)
+
+void init_NN() ﹍てNNㄧΑ
+void changeImg() 传代刚计
+void button2_Click(object sender, EventArgs e)代刚NNだ摸
+
+Form2.cs NN厩策把计砞竚ざ
+
+Number_Check(object sender, KeyPressEventArgs e)浪代块琌计
+void NN_Training() 癡絤NN
+void Out_NN_Parameter() 块NN把计 
+void STOP_train() 氨ゎNN癡絤Thread
+
+Form3.cs NN魁厩策挡狦ざ
+
+
+
